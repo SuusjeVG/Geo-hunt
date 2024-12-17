@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --color-background: #202030;
+    --color-primary: #42407C;
+    --color-secondary: #893A30;
+    --color-white: #FFFFFF;
+}
+
+html {
+    @apply font-raleway;
+}
+
+body {
+    @apply bg-background text-white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+}
+
+/* layout classes */
+.container {
+    @apply flex flex-wrap justify-center items-center p-7 h-screen;
+}
+.container > .wrapper {
+    @apply flex flex-wrap w-full max-w-screen-sm;
+}
+
+.btn-primary {
+    @apply flex justify-center items-center bg-primary w-full text-white py-2 px-4 rounded;
+}
+
+.btn-secondary {
+    @apply flex justify-center items-center border border-solid w-full text-white py-2 px-4 rounded;
+}
+
+

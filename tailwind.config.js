@@ -8,11 +8,19 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-
+    corePlugins: {
+        container: false,
+    },
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                raleway: ["Raleway", "sans-serif"],
+            },
+            colors: {
+                background: 'var(--color-background)', 
+                primary: 'var(--color-primary)',       
+                secondary: 'var(--color-secondary)',   
+                white: 'var(--color-white)',           
             },
         },
     },
