@@ -1,1 +1,1 @@
-<img src="assets/icons/logo.svg" alt="logo" class="w-full h-auto" {{ $attributes }} />
+<img src="assets/icons/logo.svg" alt="logo" class="w-full h-full" {{ $attributes }} />

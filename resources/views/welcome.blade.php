@@ -13,7 +13,7 @@
         <!-- Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="container">
+    <body class="container gap-14">
         <header class="wrapper justify-between flex-col gap-4">
             {{-- @if (Route::has('login'))
                 <livewire:welcome.navigation />
