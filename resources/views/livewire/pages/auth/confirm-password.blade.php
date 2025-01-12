@@ -41,15 +41,16 @@ new #[Layout('layouts.guest')] class extends Component
     <form wire:submit="confirmPassword">
         <!-- Password -->
         <div>
-            <x-input-label for="password" :value="__('Password')" />
-
             <x-text-input wire:model="password"
-                          id="password"
-                          class="block mt-1 w-full"
-                          type="password"
-                          name="password"
-                          required autocomplete="current-password" />
-
+                label="Confirm password"
+                placeholder="Type your password..."
+                icon="assets/icons/lock-solid.svg"
+                class="mb-4"
+                id="password"
+                name="password"
+                type="password"
+                required autocomplete="current-password" 
+            />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 

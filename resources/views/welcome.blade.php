@@ -11,13 +11,10 @@
         <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         
         <!-- Styles -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css'])
     </head>
     <body class="container gap-14">
         <header class="wrapper justify-between flex-col gap-4">
-            {{-- @if (Route::has('login'))
-                <livewire:welcome.navigation />
-            @endif --}}
             <img src="assets/images/thumbnail.png" alt="thumbnail" class="w-full h-auto">
             <h1 class="text-center text-xl"> Ga op aventuur in de campus omgeving en zoek 3D voorwerpen met de AR functie </h1>
             <p class="text-center"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium facere nulla, aut consectetur laborum iure quisquam velit et repudiandae error atque veritatis, perspiciatis ex sed ab fugit dolor praesentium. Accusantium. </p>

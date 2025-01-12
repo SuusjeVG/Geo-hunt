@@ -12,7 +12,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css'])
     </head>
     <body class="container ">
         <div class="wrapper h-full justify-between items-center gap-14">
@@ -21,7 +21,6 @@
             </a>
 
             <div class="w-full">
-
                 {{ $slot }}
             </div>
 

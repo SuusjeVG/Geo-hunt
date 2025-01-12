@@ -8,7 +8,6 @@
     --color-secondary: #893A30;
     --color-white: #FFFFFF;
 }
-
 html {
     @apply font-raleway;
 }
