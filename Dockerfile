@@ -10,50 +10,46 @@ COPY package*.json ./
 # 3. Installeer node dependencies
 RUN npm install
 
-# 4. Kopieer alle files (resources/, vite.config.js, etc.)
+# 4. Kopieer alle front-end files (resources/, vite.config.js, etc.)
 COPY . .
 
-# 5. Build (bv. npm run build of npm run prod, afhankelijk van je config)
+# 5. Build je front-end (vite / webpack / etc.)
 RUN npm run build
 
 
 # ===== STAGE 2: PHP (zonder nginx) =====
 FROM php:8.2-fpm
 
-# 6. Systeempakketten voor bv. pdo_mysql, pdo_pgsql etc.
+# 6. Installeer extra Linux-pakketten en extensies (voor pdo_mysql/pdo_pgsql, zip, etc.)
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     zip \
     unzip
 
-# 7. Installeer PHP-extensies
 RUN docker-php-ext-install pdo_mysql pdo_pgsql zip
 
-# 8. Kopieer Composer vanuit officiële Composer‐image
+# 7. Kopieer Composer vanuit de officiële composer-image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# 9. Werkmap voor Laravel
+# 8. Werkmap voor Laravel
 WORKDIR /var/www/html
 
-# 10. Kopieer alle Laravel‐files
+# 9. Kopieer alle Laravel-bestanden (uit je repo)
 COPY . .
 
-# 11. Kopieer de gebuilde assets vanuit de Node‐stage
+# 10. Kopieer de gebuilde assets vanuit de Node-stage
 COPY --from=node-builder /app/public/build ./public/build
 
-# 12. Installeer PHP dependencies (zonder dev, als je dat wilt)
-RUN composer install --no-dev --working-dir=/var/www/html
+# 11. Installeer PHP dependencies (production, zonder dev)
+RUN composer install --no-dev --optimize-autoloader
 
-# 13. (Optioneel) Artisan-commando's (bv. key:generate, migrate --force etc.)
-# RUN php artisan key:generate
-# RUN php artisan migrate --force
-# RUN php artisan config:cache
-# RUN php artisan route:cache
+# 12. Kopieer je entrypoint-script en maak 'm uitvoerbaar
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-
-# 14. Expose poort 8000 (waar artisan serve op draait)
+# 13. Expose poort 8000 (artisan serve)
 EXPOSE 8000
 
-# 15. Start de app met php artisan serve
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# 14. De entrypoint start straks alle artisan-commando's + php artisan serve
+ENTRYPOINT ["/entrypoint.sh"]
