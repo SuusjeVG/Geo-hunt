@@ -43,11 +43,14 @@ COPY . .
 COPY --from=node-builder /app/public/build ./public/build
 
 # 12. Installeer PHP dependencies (zonder dev, als je dat wilt)
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --working-dir=/var/www/html
 
 # 13. (Optioneel) Artisan-commando's (bv. key:generate, migrate --force etc.)
-# RUN php artisan key:generate
-# RUN php artisan migrate --force
+RUN php artisan key:generate
+RUN php artisan migrate --force
+RUN php artisan config:cache
+RUN php artisan route:cache
+
 
 # 14. Expose poort 8000 (waar artisan serve op draait)
 EXPOSE 8000
