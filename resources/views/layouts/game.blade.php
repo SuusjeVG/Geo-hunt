@@ -16,7 +16,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/Game.js'])
     </head>
-    <body class=" h-full w-screen ">
+    <body class=" h-full w-screen relative ">
         <!-- Page Content -->
         {{ $slot }}
     </body>

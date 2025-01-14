@@ -19,7 +19,6 @@ export default class Map {
 
         L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=J44dxEKdDtKhfOY3ldTa', {
             maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(this.$map);
     }
 
@@ -28,7 +27,8 @@ export default class Map {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: 50
+            radius: 50,
+            className: 'pulse-marker'
         }).addTo(this.$map);
 
         this.$map.setView([lat, lng], 15);

@@ -8,7 +8,7 @@ export default class Player {
     async requestLocation() {
         return new Promise((resolve, reject) => {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
+                navigator.geolocation.watchPosition(
                     (pos) => {
                         this.location = {
                             latitude: pos.coords.latitude,
