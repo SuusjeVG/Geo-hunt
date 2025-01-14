@@ -85,6 +85,9 @@ new class extends Component
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('game')" :active="request()->routeIs('game')" wire:navigate>
+                {{ __('Game') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
