@@ -1,59 +1,56 @@
 # ===== STAGE 1: Node build =====
 FROM node:18 AS node-builder
 
-# Maak een map voor de app in deze stage
+# 1. Werken in /app
 WORKDIR /app
 
-# Kopieer de Node-package-bestanden en installeer dependencies
+# 2. Kopieer package.json / package-lock.json
 COPY package*.json ./
+
+# 3. Installeer node dependencies
 RUN npm install
 
-# Kopieer nu de rest van je project (bijv. je resources, vite.config.js etc.)
+# 4. Kopieer alle files (resources/, vite.config.js, etc.)
 COPY . .
 
-# Build je front-end (gebruik bijv. npm run prod, npm run build, of wat je in package.json hebt staan)
+# 5. Build (bv. npm run build of npm run prod, afhankelijk van je config)
 RUN npm run build
 
-# ===== STAGE 2: PHP + Nginx =====
-FROM php:8.2-fpm-bullseye
 
-# (A) Installeer benodigde pakketten (Nginx, git, etc.)
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       nginx \
-       libpq-dev \
-       libzip-dev \
-       zip unzip \
-       git \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip \
-    && rm -rf /var/lib/apt/lists/*
+# ===== STAGE 2: PHP (zonder nginx) =====
+FROM php:8.2-fpm
 
-# (B) Installeer Composer (vanaf de officiële composer image)
+# 6. Systeempakketten voor bv. pdo_mysql, pdo_pgsql etc.
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    libzip-dev \
+    zip \
+    unzip
+
+# 7. Installeer PHP-extensies
+RUN docker-php-ext-install pdo_mysql pdo_pgsql zip
+
+# 8. Kopieer Composer vanuit officiële Composer‐image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# (C) Maak een werkdirectory voor de Laravel-app
+# 9. Werkmap voor Laravel
 WORKDIR /var/www/html
 
-# (D) Kopieer al je Laravel-files
+# 10. Kopieer alle Laravel‐files
 COPY . .
 
-# (E) Kopieer de gebuilde assets vanuit de Node-stage
+# 11. Kopieer de gebuilde assets vanuit de Node‐stage
 COPY --from=node-builder /app/public/build ./public/build
 
-# (F) Installeer Laravel (production)
+# 12. Installeer PHP dependencies (zonder dev, als je dat wilt)
 RUN composer install --no-dev --optimize-autoloader
 
-# (Optioneel) genereer key of doe je migrations hier
+# 13. (Optioneel) Artisan-commando's (bv. key:generate, migrate --force etc.)
 # RUN php artisan key:generate
 # RUN php artisan migrate --force
 
-# (G) Nginx configureren
-# Voorbeeld: kopieer je eigen Nginx-site.conf naar de juiste plek
-COPY ./conf/nginx/nginx-site.conf /etc/nginx/sites-available/default
+# 14. Expose poort 8000 (waar artisan serve op draait)
+EXPOSE 8000
 
-# (H) Expose poort 80
-EXPOSE 80
-
-# (I) Startservices: Nginx + PHP-FPM
-#   - In Docker start je maar één "CMD", dus we starten eerst Nginx en dan php-fpm in de voorgrond.
-CMD service nginx start && php-fpm
+# 15. Start de app met php artisan serve
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
