@@ -1,36 +1,59 @@
-FROM php:8.3-fpm
+# ===== STAGE 1: Node build =====
+FROM node:18 AS node-builder
 
-# Installeer systeemvereisten
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    unzip \
-    git \
-    curl \
-    npm \
-    && docker-php-ext-install pdo_sqlite zip
+# Maak een map voor de app in deze stage
+WORKDIR /app
 
-# Installeer Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Kopieer de Node-package-bestanden en installeer dependencies
+COPY package*.json ./
+RUN npm install
 
-# Stel de werkmap in
-WORKDIR /var/www/html
-
-# Kopieer alle bestanden naar de container
+# Kopieer nu de rest van je project (bijv. je resources, vite.config.js etc.)
 COPY . .
 
-# Verwijder Node.js-cache voor schone installatie
-RUN npm cache clean --force
+# Build je front-end (gebruik bijv. npm run prod, npm run build, of wat je in package.json hebt staan)
+RUN npm run build
 
-# Installeer PHP- en Node.js-afhankelijkheden
+# ===== STAGE 2: PHP + Nginx =====
+FROM php:8.2-fpm-bullseye
+
+# (A) Installeer benodigde pakketten (Nginx, git, etc.)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       nginx \
+       libpq-dev \
+       libzip-dev \
+       zip unzip \
+       git \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip \
+    && rm -rf /var/lib/apt/lists/*
+
+# (B) Installeer Composer (vanaf de officiële composer image)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# (C) Maak een werkdirectory voor de Laravel-app
+WORKDIR /var/www/html
+
+# (D) Kopieer al je Laravel-files
+COPY . .
+
+# (E) Kopieer de gebuilde assets vanuit de Node-stage
+COPY --from=node-builder /app/public/build ./public/build
+
+# (F) Installeer Laravel (production)
 RUN composer install --no-dev --optimize-autoloader
-RUN npm install && npm run build
 
-# Stel rechten in voor mappen
-RUN chmod -R 777 database storage bootstrap/cache
+# (Optioneel) genereer key of doe je migrations hier
+# RUN php artisan key:generate
+# RUN php artisan migrate --force
 
-# Laravel optimalisaties
-RUN php artisan config:cache
-RUN php artisan route:cache
+# (G) Nginx configureren
+# Voorbeeld: kopieer je eigen Nginx-site.conf naar de juiste plek
+COPY ./conf/nginx/nginx-site.conf /etc/nginx/sites-available/default
 
-# Start de Laravel server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
+# (H) Expose poort 80
+EXPOSE 80
+
+# (I) Startservices: Nginx + PHP-FPM
+#   - In Docker start je maar één "CMD", dus we starten eerst Nginx en dan php-fpm in de voorgrond.
+CMD service nginx start && php-fpm
