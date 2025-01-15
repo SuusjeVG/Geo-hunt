@@ -8,8 +8,4 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    build: {
-        manifest: true, // Zorg dat het manifest wordt gegenereerd
-        outDir: "public/build", // Plaats de bestanden in de public/build-map
-    },
 });
