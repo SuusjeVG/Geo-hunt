@@ -26,10 +26,10 @@ export default class Map {
     setPlayerMarker(lat, lng) {
 
         this.playerMarker = L.circle([lat, lng], {
-            color: 'red',
-            fillColor: '#f03',
+            color: 'blue',
+            fillColor: '#1d4bf0',
             fillOpacity: 0.5,
-            radius: 20,
+            radius: 5,
             // className: 'pulse-marker'
         }).addTo(this.$map);
         
@@ -51,12 +51,37 @@ export default class Map {
         this.$map.setView([lat, lng], 15);
     }
 
-    updatePlayerMarker(lat, lng) {
-        if (this.playerMarker) {
-            this.playerMarker.setLatLng([lat, lng]);
-        } else {
+    updatePlayerMarker(lat, lng, duration = 1000) {
+        if (!this.playerMarker) {
             console.error('Player marker does not exist!');
+            return;
         }
+    
+        const startLatLng = this.playerMarker.getLatLng();
+        const startLat = startLatLng.lat;
+        const startLng = startLatLng.lng;
+    
+        const deltaLat = lat - startLat;
+        const deltaLng = lng - startLng;
+    
+        let startTime;
+    
+        const step = (timestamp) => {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+    
+            const currentLat = startLat + deltaLat * progress;
+            const currentLng = startLng + deltaLng * progress;
+    
+            // Update de marker's locatie
+            this.playerMarker.setLatLng([currentLat, currentLng]);
+    
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            }
+        };
+    
+        requestAnimationFrame(step);
     }
 
     async loadMarkersFromAPI() {

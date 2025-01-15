@@ -58,7 +58,7 @@ h1 {
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 2px solid rgba(0, 123, 255, 0.5); /* Pulse kleur */
+    border: 2px solid rgba(0, 123, 255, 0.502); /* Pulse kleur */
     border-radius: 50%;
     animation: pulse 4s infinite;
   }

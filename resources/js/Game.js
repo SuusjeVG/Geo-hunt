@@ -21,7 +21,7 @@ class Game {
                 this.map.setPlayerMarker(currentLocation.latitude, currentLocation.longitude);
             } else {
                 // Update de speler-marker
-                this.map.updatePlayerMarker(currentLocation.latitude, currentLocation.longitude);
+                this.map.updatePlayerMarker(currentLocation.latitude, currentLocation.longitude, 1000);
             }
         });
     }
