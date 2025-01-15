@@ -6,7 +6,6 @@ class Game {
     constructor() {
         this.map = new Map();
         this.player = new Player();
-
         this.init();
     }
 
@@ -14,15 +13,30 @@ class Game {
         // 1. Render de kaart met markers
         await this.map.renderMap();
 
-        // 2. Start het ophalen van de locatie
-        this.player.requestLocation((currentLocation) => {
-            if (!this.map.playerMarker) {
-                // Maak de speler-marker als deze nog niet bestaat
-                this.map.setPlayerMarker(currentLocation.latitude, currentLocation.longitude);
-            } else {
-                // Update de speler-marker
-                this.map.updatePlayerMarker(currentLocation.latitude, currentLocation.longitude, 1000);
-            }
+        // 2. Haal de initiële locatie op
+        try {
+            const initialLocation = await this.player.getCurrentPosition();
+            this.map.setPlayerMarker(initialLocation.latitude, initialLocation.longitude);
+
+            // 3. Start locatie-tracking
+            this.player.watchPosition((newLocation) => {
+                this.map.setPlayerMarker(newLocation.latitude, newLocation.longitude);
+
+            // 4. Center de kaart op de nieuwe locatie
+            this.centerMapButton(this.player.location.latitude, this.player.location.longitude);
+            
+        });
+        } catch (error) {
+            console.error('Error getting initial position:', error);
+        }
+    }
+
+    
+    centerMapButton(lat, lng) {
+        const button = document.querySelector('[data-action="center-map"]');
+        
+        button.addEventListener('click', () => {
+            this.map.$map.setView([lat, lng], 15);
         });
     }
 

@@ -21,6 +21,8 @@ export default class Map {
         L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=J44dxEKdDtKhfOY3ldTa', {
             maxZoom: 19,
         }).addTo(this.$map);
+
+        // this.$map.setView([lat, lng], 15);
     }
 
     setPlayerMarker(lat, lng) {
@@ -33,7 +35,7 @@ export default class Map {
             // className: 'pulse-marker'
         }).addTo(this.$map);
         
-
+        this.$map.setView([lat, lng], 15);
         // // Maak een custom radar-marker
         // const radarDiv = document.createElement('div');
         // radarDiv.className = 'radar';
@@ -48,41 +50,20 @@ export default class Map {
         //     }),
         // }).addTo(this.$map);
 
-        this.$map.setView([lat, lng], 15);
+      
     }
 
-    updatePlayerMarker(lat, lng, duration = 1000) {
-        if (!this.playerMarker) {
+    updatePlayerMarker(lat, lng) {
+
+        if (this.playerMarker) {
+            this.playerMarker.setLatLng([lat, lng]);
+        } else {
             console.error('Player marker does not exist!');
-            return;
         }
-    
-        const startLatLng = this.playerMarker.getLatLng();
-        const startLat = startLatLng.lat;
-        const startLng = startLatLng.lng;
-    
-        const deltaLat = lat - startLat;
-        const deltaLng = lng - startLng;
-    
-        let startTime;
-    
-        const step = (timestamp) => {
-            if (!startTime) startTime = timestamp;
-            const progress = Math.min((timestamp - startTime) / duration, 1);
-    
-            const currentLat = startLat + deltaLat * progress;
-            const currentLng = startLng + deltaLng * progress;
-    
-            // Update de marker's locatie
-            this.playerMarker.setLatLng([currentLat, currentLng]);
-    
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            }
-        };
-    
-        requestAnimationFrame(step);
+
     }
+
+
 
     async loadMarkersFromAPI() {
         try {

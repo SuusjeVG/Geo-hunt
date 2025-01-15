@@ -10,4 +10,7 @@
         <x-game-navigation name="Settings" url="/assets/icons/gear-solid.svg"/>
     </div>
 
+    <button data-action="center-map" class="absolute flex items-center justify-center top-5 right-5 z-1 bg-primary w-10 h-10 rounded-full p-2">
+        <img src="/assets/icons/compass-regular.svg" alt="compass" class="w-6 h-6">
+    </button>
 </x-game-layout>
