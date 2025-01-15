@@ -19,7 +19,8 @@ export default class Map {
         this.$map = L.map('map').fitWorld();
 
         L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=J44dxEKdDtKhfOY3ldTa', {
-            maxZoom: 19,
+            maxZoom: 22,
+            preferCanvas: true,
         }).addTo(this.$map);
 
         navigator.geolocation.getCurrentPosition((pos) => {
