@@ -22,48 +22,31 @@ export default class Map {
             maxZoom: 19,
         }).addTo(this.$map);
 
-        // this.$map.setView([lat, lng], 15);
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const { latitude, longitude} = pos.coords;
+            this.$map.setView([latitude, longitude], 15);
+        });
     }
 
-    setPlayerMarker(lat, lng) {
-
-        this.playerMarker = L.circle([lat, lng], {
-            color: 'blue',
-            fillColor: '#1d4bf0',
-            fillOpacity: 0.5,
-            radius: 5,
-            // className: 'pulse-marker'
-        }).addTo(this.$map);
-        
-        this.$map.setView([lat, lng], 15);
-        // // Maak een custom radar-marker
-        // const radarDiv = document.createElement('div');
-        // radarDiv.className = 'radar';
-
-        // // Voeg de marker toe met Leaflet's DivIcon
-        // const radarMarker = L.marker([lat, lng], {
-        //     icon: L.divIcon({
-        //         className: '', // Laat standaard klasse leeg
-        //         html: radarDiv.outerHTML,
-        //         iconSize: [100, 100],
-        //         pane: 'fixedPane',
-        //     }),
-        // }).addTo(this.$map);
-
-      
-    }
-
+    // Speler-marker instellen of updaten
     updatePlayerMarker(lat, lng) {
 
-        if (this.playerMarker) {
-            this.playerMarker.setLatLng([lat, lng]);
+        if (!this.playerMarker) {
+            // Maak een nieuwe speler-marker
+            this.playerMarker = L.circleMarker([lat, lng], {
+                radius: 8,
+                color: "blue",
+                fillColor: "#1d4bf0",
+                fillOpacity: 0.7,
+            }).addTo(this.$map);
         } else {
-            console.error('Player marker does not exist!');
+            const currentLatLng = this.playerMarker.getLatLng();
+            if (currentLatLng.lat !== lat || currentLatLng.lng !== lng) {
+                this.playerMarker.setLatLng([lat, lng]);
+            }
         }
-
+  
     }
-
-
 
     async loadMarkersFromAPI() {
         try {
@@ -76,9 +59,15 @@ export default class Map {
                 const lng = item.location.coordinates[1];
     
                 // Plaats een Leaflet-marker op de kaart
-                L.marker([lat, lng])
-                    .addTo(this.$map)
-                    .bindPopup(item.name);
+                L.marker([lat, lng], {
+                    icon: L.icon({
+                        iconUrl: 'assets/icons/location-dot-solid.svg',
+                        iconSize: [20, 40],
+                    })
+                })
+                .addTo(this.$map)
+                .bindPopup(item.name)
+
     
                 // Bewaar eigen Marker-instance in this.markers array
                 const markerObj = new Marker(item._id, item.name, {
