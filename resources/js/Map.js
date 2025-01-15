@@ -7,9 +7,10 @@ export default class Map {
     constructor() {
         this.$map = null;
         this.markers = [];
+        this.playerMarker = null;
     }
 
-    renderMap() {
+    async renderMap() {
         this.createMap();
         this.loadMarkersFromAPI() 
     }   
@@ -22,16 +23,40 @@ export default class Map {
         }).addTo(this.$map);
     }
 
-    playerMarker(lat, lng) {
-        const playerMarker = L.circle([lat, lng], {
+    setPlayerMarker(lat, lng) {
+
+        this.playerMarker = L.circle([lat, lng], {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: 50,
-            className: 'pulse-marker'
+            radius: 20,
+            // className: 'pulse-marker'
         }).addTo(this.$map);
+        
+
+        // // Maak een custom radar-marker
+        // const radarDiv = document.createElement('div');
+        // radarDiv.className = 'radar';
+
+        // // Voeg de marker toe met Leaflet's DivIcon
+        // const radarMarker = L.marker([lat, lng], {
+        //     icon: L.divIcon({
+        //         className: '', // Laat standaard klasse leeg
+        //         html: radarDiv.outerHTML,
+        //         iconSize: [100, 100],
+        //         pane: 'fixedPane',
+        //     }),
+        // }).addTo(this.$map);
 
         this.$map.setView([lat, lng], 15);
+    }
+
+    updatePlayerMarker(lat, lng) {
+        if (this.playerMarker) {
+            this.playerMarker.setLatLng([lat, lng]);
+        } else {
+            console.error('Player marker does not exist!');
+        }
     }
 
     async loadMarkersFromAPI() {

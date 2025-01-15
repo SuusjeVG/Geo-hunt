@@ -4,28 +4,29 @@ export default class Player {
         this.inventory = [];
         this.location = {}; // Een object, geen array
     }
+    
+    requestLocation(onLocationUpdate) {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                (pos) => {
+                    this.location = {
+                        latitude: pos.coords.latitude,
+                        longitude: pos.coords.longitude,
+                    };
+                    console.log('Updated Location:', this.location);
 
-    async requestLocation() {
-        return new Promise((resolve, reject) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.watchPosition(
-                    (pos) => {
-                        this.location = {
-                            latitude: pos.coords.latitude,
-                            longitude: pos.coords.longitude
-                        };
-                        console.log('Location in Player:', this.location);
-                        resolve(this.location); // We geven de locatie terug
-                    },
-                    (err) => {
-                        console.error(err);
-                        reject(err);
+                    // Roep de callback aan met de nieuwe locatie
+                    if (onLocationUpdate) {
+                        onLocationUpdate(this.location);
                     }
-                );
-            } else {
-                reject('Geolocation is not supported by this browser.');
-            }
-        });
+                },
+                (err) => {
+                    console.error('Error getting location:', err);
+                }
+            );
+        } else {
+            console.error('Geolocation is not supported by this browser.');
+        }
     }
 
 

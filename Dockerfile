@@ -5,20 +5,20 @@ FROM node:18 AS node-builder
 WORKDIR /app
 
 # 2. Kopieer package.json / package-lock.json
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
 # 3. Installeer node dependencies
 RUN npm install
 
 # 4. Kopieer alle front-end files (resources/, vite.config.js, etc.)
-COPY . .
+COPY . ./
 
 # 5. Build je front-end (vite / webpack / etc.)
 RUN npm run build
 
 
 # ===== STAGE 2: PHP (zonder nginx) =====
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # 6. Installeer extra Linux-pakketten en extensies (voor pdo_mysql/pdo_pgsql, zip, etc.)
 RUN apt-get update && apt-get install -y \

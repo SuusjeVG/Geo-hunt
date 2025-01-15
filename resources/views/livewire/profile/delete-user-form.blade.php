@@ -51,15 +51,15 @@ new class extends Component
             </p>
 
             <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
 
-                <x-text-input
-                    wire:model="password"
+                <x-text-input wire:model="password"
+                    label="Password"
+                    placeholder="Type your password..."
+                    icon="assets/icons/lock-solid.svg"
+                    class="mb-4"
                     id="password"
                     name="password"
                     type="password"
-                    class="mt-1 block w-3/4"
-                    placeholder="{{ __('Password') }}"
                 />
 
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />

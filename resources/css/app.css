@@ -40,26 +40,50 @@ h1 {
     @apply flex justify-center items-center border border-solid w-full text-white py-2 px-4 rounded;
 }
 
-.pulse-marker {
-    /* width: 20px;
-    height: 20px;
-    background: rgba(0, 123, 255, 0.4);
-    border-radius: 50%; */
-    animation: myAnim 2s ease 0s infinite normal forwards;
-}
+/* Radar-styling */
+.radar {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: rgba(0, 123, 255, 0.3);
+    border: 4px solid rgba(255, 255, 255, 0.8); /* Buitenste statische ring */
+    pointer-events: none; 
+    overflow: hidden;
+  }
+  
+  .radar::before,
+  .radar::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(0, 123, 255, 0.5); /* Pulse kleur */
+    border-radius: 50%;
+    animation: pulse 4s infinite;
+  }
+  
+  .radar::after {
+    animation-delay: 1s;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(0.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0; /* Verdwijnt bij de rand */
+    }
+  }
 
-@keyframes myAnim {
-	0% {
-		opacity: 1;
-	}
-
-	50% {
-		opacity: 0.2;
-	}
-
-	100% {
-		opacity: 1;
-	}
-}
-
+  
+  
+  
+  
+  
+  
+  
+  
 
