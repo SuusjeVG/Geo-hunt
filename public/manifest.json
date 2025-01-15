@@ -1,0 +1,21 @@
+{
+    "name": "Geo hunt",
+    "short_name": "Geo",
+    "start_url": "/", 
+    "display": "standalone",
+    "background_color": "#202030",
+    "theme_color": "#42407C",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "assets/icons/map-regular.svg",
+            "type": "image/svg",
+            "sizes": "192x192"
+        },
+        {
+            "src": "assets/icons/map-regular.svg",
+            "type": "image/svg",
+            "sizes": "512x512"
+        }
+    ]
+}

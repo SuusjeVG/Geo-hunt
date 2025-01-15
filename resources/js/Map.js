@@ -40,6 +40,7 @@ export default class Map {
                 fillOpacity: 0.7,
             }).addTo(this.$map);
         } else {
+            // Update de bestaande speler-marker
             const currentLatLng = this.playerMarker.getLatLng();
             if (currentLatLng.lat !== lat || currentLatLng.lng !== lng) {
                 this.playerMarker.setLatLng([lat, lng]);

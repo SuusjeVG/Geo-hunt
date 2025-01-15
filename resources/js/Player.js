@@ -9,9 +9,10 @@ export default class Player {
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition(
                 (pos) => {
-                    const { latitude, longitude, accuracy } = pos.coords;
+                    const { latitude, longitude } = pos.coords;
 
                     this.location = { latitude, longitude };
+
                     if (onLocationUpdate) {
                         onLocationUpdate(this.location);
                     }
