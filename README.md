@@ -90,11 +90,6 @@ Na installatie kun je de applicatie openen in je browser via `http://127.0.0.1:8
 - **Gebruikersnaam:** `testuser@example.com`  
 - **Wachtwoord:** `test1234`  
 
----
-
-Hier is een geüpdatet en volledig geformatteerd **README.md**-canvas voor jouw project met de Docker-optie opgenomen:  
-
----
 
 ## 🐳 Deployment met Docker  
 
