@@ -1,8 +1,7 @@
-# Digitaal Buitenspelen
+# Geo hunt
 
-**Digitaal Buitenspelen** is een Laravel-webapplicatie ontworpen om IT-studenten op de Fontys-campus te stimuleren tot meer fysieke activiteit en sociale interactie. Het biedt basisfunctionaliteiten zoals GPS-gebaseerde interacties en AR-componenten, en vormt een solide basis voor verdere uitbreiding met gamification-elementen.  
+**Geo Hunt is** een Laravel-webapplicatie ontwikkeld als onderdeel van het project **Digitaal Buitenspelen**, met als doel IT-studenten op de Fontys-campus te motiveren tot meer fysieke activiteit en sociale interactie tijdens hun pauzes. Het biedt basisfunctionaliteiten zoals GPS-gebaseerde interacties en AR-componenten, en vormt een solide basis voor verdere uitbreiding met gamification-elementen.  
 
----
 
 ## 📋 Inhoudsopgave  
 1. [Vereisten](#vereisten)  
@@ -14,7 +13,7 @@
 
 ---
 
-## 📦 Vereisten  
+## 📦 Vereisten & Technologiën 
 
 Zorg ervoor dat je de volgende software hebt geïnstalleerd:  
 - PHP 8.0 of hoger  
@@ -22,6 +21,11 @@ Zorg ervoor dat je de volgende software hebt geïnstalleerd:
 - Node (voor NPM)  
 - MySQL (of een andere compatibele database)  
 
+Dit project maakt gebruik van:
+- **Laravel + livewire**: Voor zowel backend als frontend (Authentication && Database migratie).
+- **Leaflet.js**: Interactieve kaarten en locatiegebaseerde interacties.
+- **WebXR en Three.js**: Voor AR-functionaliteit en 3D-rendering.
+- **Javascript API's**: Voor locatie, camera-interacties en haptische feedback.
 ---
 
 ## 🚀 Installatie  
@@ -90,12 +94,13 @@ Na installatie kun je de applicatie openen in je browser via `http://127.0.0.1:8
 - **Gebruikersnaam:** `testuser@example.com`  
 - **Wachtwoord:** `test1234`  
 
+---
 
 ## 🐳 Deployment met Docker  
 
 Deze repository bevat een **Dockerfile** die kan worden gebruikt voor het deployen van de applicatie op een PHP-hostingserver of lokaal via een Docker-container.  
 
-* Vereist Docker
+* Vereist: Docker versie: 20.10 of hoger
 
 ### Gebruik van de Dockerfile  
 
