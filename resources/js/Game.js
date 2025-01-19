@@ -16,6 +16,14 @@ class Game {
         // Start locatie-tracking
         this.player.startTracking((location) => {
             this.map.updatePlayerMarker(location.latitude, location.longitude);
+
+            // Controleer voor alle markers of de speler dichtbij is
+            this.map.markers.forEach((markerObj) => {
+                if (markerObj.isNearby(location)) {
+                    console.log(`Player is within radius of marker: ${markerObj.name}`);
+                    this.player.vibrate(); // Laat de telefoon trillen
+                }
+            });
         });
 
         // 2. Centreer de kaart op de spelerlocatie

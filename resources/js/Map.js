@@ -35,7 +35,7 @@ export default class Map {
         if (!this.playerMarker) {
             // Maak een nieuwe speler-marker
             this.playerMarker = L.circleMarker([lat, lng], {
-                radius: 8,
+                radius: 5,
                 color: "blue",
                 fillColor: "#1d4bf0",
                 fillOpacity: 0.7,
@@ -59,23 +59,36 @@ export default class Map {
                 // Haal de coördinaten uit het object
                 const lat = item.location.coordinates[0];
                 const lng = item.location.coordinates[1];
-    
-                // Plaats een Leaflet-marker op de kaart
-                L.marker([lat, lng], {
-                    icon: L.icon({
-                        iconUrl: 'assets/icons/location-dot-solid.svg',
-                        iconSize: [20, 40],
-                    })
+                const radius = item.radius || 10;
+
+                // Marker met icoon toevoegen
+                const markerIcon = L.icon({
+                    iconUrl: 'assets/icons/location-dot-solid.svg',
+                    iconSize: [20, 40], 
                 })
-                .addTo(this.$map)
-                .bindPopup(item.name)
+
+                const marker = L.marker([lat, lng], { icon: markerIcon }).addTo(this.$map);
+
+                const circle = L.circle([lat, lng], {
+                    radius,
+                    color: 'rgba(255, 0, 0, 0.5)', 
+                    fillColor: 'rgba(255, 0, 0, 0.3)', 
+                    fillOpacity: 0.3,
+                    interactive: false,
+                }).addTo(this.$map);
+
+                // .bindPopup(item.name)
 
     
                 // Bewaar eigen Marker-instance in this.markers array
-                const markerObj = new Marker(item._id, item.name, {
-                    latitude: lat,
-                    longitude: lng,
-                });
+                // const markerObj = new Marker(item._id, item.name, {
+                //     latitude: lat,
+                //     longitude: lng,
+                // });
+                const markerObj = new Marker(item._id, item.name, 
+                    { latitude: lat, longitude: lng }, 
+                    radius
+                );
                 this.markers.push(markerObj);
 
                 
