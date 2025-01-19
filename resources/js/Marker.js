@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 export default class Marker {
     constructor(id, name, location, radius) {
         this.id = id;

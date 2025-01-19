@@ -8,6 +8,8 @@ export default class Map {
         this.$map = null;
         this.markers = [];
         this.playerMarker = null;
+
+        console.log(this.markers);
     }
 
     async renderMap() {
@@ -35,7 +37,7 @@ export default class Map {
         if (!this.playerMarker) {
             // Maak een nieuwe speler-marker
             this.playerMarker = L.circleMarker([lat, lng], {
-                radius: 5,
+                radius: 8,
                 color: "blue",
                 fillColor: "#1d4bf0",
                 fillOpacity: 0.7,
@@ -90,6 +92,8 @@ export default class Map {
                     radius
                 );
                 this.markers.push(markerObj);
+
+                
 
                 
             });

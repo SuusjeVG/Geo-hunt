@@ -34,8 +34,10 @@ export default class Player {
 
 
     vibrate() {
-        // Example: phone vibration
-        if (navigator.vibrate) navigator.vibrate(200);
+        if (navigator.vibrate) {
+            navigator.vibrate(200); // Laat de telefoon 200ms trillen
+            console.log("Phone is vibrating!");
+        }
     }
 
     openCamera() {
