@@ -8,8 +8,6 @@ export default class Map {
         this.$map = null;
         this.markers = [];
         this.playerMarker = null;
-
-        console.log(this.markers);
     }
 
     async renderMap() {

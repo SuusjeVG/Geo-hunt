@@ -40,6 +40,7 @@ h1 {
     @apply flex justify-center items-center border border-solid w-full text-white py-2 px-4 rounded;
 }
 
+
 /* Radar-styling */
 .radar {
     position: relative;
@@ -77,6 +78,8 @@ h1 {
       opacity: 0; /* Verdwijnt bij de rand */
     }
   }
+
+
 
   
   

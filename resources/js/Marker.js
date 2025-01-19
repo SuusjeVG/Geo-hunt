@@ -14,6 +14,7 @@ export default class Marker {
         const playerLatLng = L.latLng(playerLocation.latitude, playerLocation.longitude);
 
         const distance = markerLatLng.distanceTo(playerLatLng); // Afstand in meters
+        console.log(distance);
         return distance <= this.radius;
     }
 }

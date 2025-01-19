@@ -1,6 +1,7 @@
 // import './bootstrap';
 import Map from './Map';
 import Player from './Player';
+
 class Game {
     constructor() {
         this.map = new Map();

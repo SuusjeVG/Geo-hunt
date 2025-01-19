@@ -16,8 +16,10 @@
         <!-- PWA -->  
         <link rel="manifest" href="/manifest.json">
 
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/Game.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class=" h-full w-screen relative ">
         <!-- Page Content -->
