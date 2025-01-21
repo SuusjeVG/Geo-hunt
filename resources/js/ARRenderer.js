@@ -9,33 +9,28 @@ export default class ARRenderer {
     }
 
     init() {
-        try {
-            // Setup Three.js Scene
-            this.scene = new THREE.Scene();
+        // Setup Three.js Scene
+        this.scene = new THREE.Scene();
 
-            // Camera
-            this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
-            this.scene.add(this.camera);
+        // Camera
+        this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
+        this.scene.add(this.camera);
 
-            // Renderer
-            this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        // Renderer
+        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.xr.enabled = true;
+        document.body.appendChild(this.renderer.domElement);
+
+        // Voeg een ARButton toe
+        document.body.appendChild(ARButton.createButton(this.renderer));
+
+        // Responsive rendering
+        window.addEventListener("resize", () => {
+            this.camera.aspect = window.innerWidth / window.innerHeight;
+            this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
-            this.renderer.xr.enabled = true;
-            document.body.appendChild(this.renderer.domElement);
-
-            // Voeg een ARButton toe
-            document.body.appendChild(ARButton.createButton(this.renderer));
-
-            // Responsive rendering
-            window.addEventListener("resize", () => {
-                this.camera.aspect = window.innerWidth / window.innerHeight;
-                this.camera.updateProjectionMatrix();
-                this.renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        } catch (error) {
-            console.error("Error initializing AR:", error.message);
-            alert("AR wordt niet ondersteund op dit apparaat.");
-        }
+        });
     }
 
     addObject(object) {
@@ -43,10 +38,6 @@ export default class ARRenderer {
     }
 
     startRendering() {
-        const overlay = document.createElement("div"); // Nieuw: Overlay toegevoegd.
-        overlay.className = "ar-overlay";
-        document.body.appendChild(overlay);
-
         this.renderer.setAnimationLoop(() => {
             this.renderer.render(this.scene, this.camera);
         });

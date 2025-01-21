@@ -6,7 +6,6 @@ class Game {
     constructor() {
         this.map = new Map();
         this.player = new Player();
-        this.isCameraEnabled = false;
 
         this.init();
     }
@@ -24,28 +23,12 @@ class Game {
                 if (markerObj.isNearby(location)) {
                     console.log(`Player is within radius of marker: ${markerObj.name}`);
                     this.player.vibrate(); // Laat de telefoon trillen
-                    this.enableCameraButton();
                 }
             });
         });
 
         // 2. Centreer de kaart op de spelerlocatie
         this.centerMapButton();
-    }
-
-    enableCameraButton() {
-        if (this.isCameraEnabled) return; // Nieuw: Voorkom dubbele activaties.
-
-        const cameraButton = document.querySelector('[data-action="camera"]');
-        cameraButton.classList.remove("opacity-50", "cursor-not-allowed");
-        cameraButton.classList.add("cursor-pointer");
-        cameraButton.removeAttribute("disabled");
-
-        cameraButton.addEventListener("click", () => {
-            this.player.openARCamera();
-        });
-
-        this.isCameraEnabled = true; // Nieuw: Markeer dat de camera nu is geactiveerd.
     }
 
     
