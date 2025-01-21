@@ -6,7 +6,7 @@ export default class Player {
         this.username = ' ';
         this.inventory = [];
         this.location = {}; 
-        this.arRenderer = new ARRenderer();
+        this.arRenderer = new ARRenderer(); // Renderer wordt doorgegeven
     }
     
     startTracking(onLocationUpdate) {
@@ -20,7 +20,6 @@ export default class Player {
                     if (onLocationUpdate) {
                         onLocationUpdate(this.location);
                     }
-
                 },
                 (error) => {
                     console.error("Error watching position:", error.message);
@@ -35,7 +34,6 @@ export default class Player {
             console.error("Geolocation is not supported by this browser.");
         }
     }
-
 
     vibrate() {
         if (navigator.vibrate) {
@@ -54,12 +52,5 @@ export default class Player {
         const cube = new THREE.Mesh(geometry, material);
         cube.position.set(0, 0, -1); // Plaats 1 meter voor de camera
         this.arRenderer.addObject(cube);
-    
-        // Start de AR-session
-        this.arRenderer.startARSession();
-    
-        // Start de rendering
-        this.arRenderer.startRendering();
     }
-    
 }

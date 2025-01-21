@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { ARButton } from "three/addons/webxr/ARButton.js";
 
 export default class ARRenderer {
     constructor() {
@@ -22,9 +21,6 @@ export default class ARRenderer {
         this.renderer.xr.enabled = true;
         document.body.appendChild(this.renderer.domElement);
 
-        // Voeg een ARButton toe
-        // document.body.appendChild(ARButton.createButton(this.renderer));
-
         // Responsive rendering
         window.addEventListener("resize", () => {
             this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -33,20 +29,8 @@ export default class ARRenderer {
         });
     }
 
-    startARSession() {
-        if (navigator.xr) {
-            navigator.xr.requestSession("immersive-ar", {
-                requiredFeatures: ["local"],
-            }).then((session) => {
-                this.renderer.xr.setSession(session);
-                console.log("AR-session gestart!");
-            }).catch((error) => {
-                console.error("Fout bij starten van AR-session:", error);
-            });
-        } else {
-            console.error("WebXR wordt niet ondersteund in deze browser.");
-            alert("WebXR wordt niet ondersteund. Probeer een andere browser zoals Chrome.");
-        }
+    getRenderer() {
+        return this.renderer; // Renderer teruggeven voor de ARButton
     }
 
     addObject(object) {

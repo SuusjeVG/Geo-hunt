@@ -1,11 +1,13 @@
 // import './bootstrap';
 import Map from './Map';
 import Player from './Player';
+import { ARButton } from "three/addons/webxr/ARButton.js";
 
 class Game {
     constructor() {
         this.map = new Map();
         this.player = new Player();
+        this.arButton = null; 
 
         this.init();
     }
@@ -13,6 +15,11 @@ class Game {
     async init() {
         // 1. Render de kaart met markers
         await this.map.renderMap();
+
+        // WebXR ARButton initialiseren en verbergen
+        const renderer = this.player.arRenderer.getRenderer();
+        this.arButton = ARButton.createButton(renderer);
+        this.arButton.style.display = "none"; // Verberg de standaard knop
 
         // Start locatie-tracking
         this.player.startTracking((location) => {
@@ -43,11 +50,12 @@ class Game {
         const cameraButton = document.querySelector('[data-action="camera"]');
         cameraButton.disabled = false;
         cameraButton.classList.remove("opacity-50", "cursor-not-allowed");
-    
+
         // Controleer of de eventlistener al is toegevoegd
         if (!cameraButton.hasListener) {
             cameraButton.addEventListener("click", () => {
-                this.player.openARCamera();
+                console.log("AR-session gestart via camera-button!");
+                this.arButton.click(); // Activeer de ARButton functionaliteit
             });
             cameraButton.hasListener = true; // Markeer dat de listener is toegevoegd
         }
@@ -59,7 +67,6 @@ class Game {
         cameraButton.classList.add("opacity-50", "cursor-not-allowed");
     }
 
-    
     centerMapButton(lat, lng) {
         const button = document.querySelector('[data-action="center-map"]');
         
@@ -71,9 +78,7 @@ class Game {
                 console.warn("Player location is not available yet.");
             }
         });
-        
     }
-
 }
 
 const game = new Game();
