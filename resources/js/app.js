@@ -43,6 +43,14 @@ class Game {
         const cameraButton = document.querySelector('[data-action="camera"]');
         cameraButton.disabled = false;
         cameraButton.classList.remove("opacity-50", "cursor-not-allowed");
+    
+        // Controleer of de eventlistener al is toegevoegd
+        if (!cameraButton.hasListener) {
+            cameraButton.addEventListener("click", () => {
+                this.player.openARCamera();
+            });
+            cameraButton.hasListener = true; // Markeer dat de listener is toegevoegd
+        }
     }
     
     disableCameraButton() {

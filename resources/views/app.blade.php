@@ -32,8 +32,6 @@
 
         <!-- Camera Button -->
         <x-game-navigation 
-            x-bind:class="active === 'camera' ? 'bg-white' : 'bg-transparent'" 
-            @click="active = 'camera'" 
             class="cursor-pointer opacity-50 cursor-not-allowed" 
             name="Camera"
             data-action="camera"
