@@ -40,6 +40,14 @@ h1 {
     @apply flex justify-center items-center border border-solid w-full text-white py-2 px-4 rounded;
 }
 
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
 
 /* Radar-styling */
 .radar {

@@ -17,15 +17,22 @@ class Game {
         // Start locatie-tracking
         this.player.startTracking((location) => {
             this.map.updatePlayerMarker(location.latitude, location.longitude);
-
-            // Controleer voor alle markers of de speler dichtbij is
+    
+            let isNearbyMarker = false;
+    
             this.map.markers.forEach((markerObj) => {
                 if (markerObj.isNearby(location)) {
                     console.log(`Player is within radius of marker: ${markerObj.name}`);
-                    this.player.vibrate(); // Laat de telefoon trillen
-                    this.enableCameraButton(); // Activeer de camera-knop
+                    this.player.vibrate();
+                    isNearbyMarker = true;
                 }
             });
+    
+            if (isNearbyMarker) {
+                this.enableCameraButton();
+            } else {
+                this.disableCameraButton();
+            }
         });
 
         // 2. Centreer de kaart op de spelerlocatie
@@ -34,9 +41,14 @@ class Game {
 
     enableCameraButton() {
         const cameraButton = document.querySelector('[data-action="camera"]');
-        cameraButton.addEventListener("click", () => {
-            this.player.openARCamera();
-        });
+        cameraButton.disabled = false;
+        cameraButton.classList.remove("opacity-50", "cursor-not-allowed");
+    }
+    
+    disableCameraButton() {
+        const cameraButton = document.querySelector('[data-action="camera"]');
+        cameraButton.disabled = true;
+        cameraButton.classList.add("opacity-50", "cursor-not-allowed");
     }
 
     

@@ -23,7 +23,7 @@ export default class ARRenderer {
         document.body.appendChild(this.renderer.domElement);
 
         // Voeg een ARButton toe
-        document.body.appendChild(ARButton.createButton(this.renderer));
+        // document.body.appendChild(ARButton.createButton(this.renderer));
 
         // Responsive rendering
         window.addEventListener("resize", () => {
@@ -31,6 +31,22 @@ export default class ARRenderer {
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         });
+    }
+
+    startARSession() {
+        if (navigator.xr) {
+            navigator.xr.requestSession("immersive-ar", {
+                requiredFeatures: ["local"],
+            }).then((session) => {
+                this.renderer.xr.setSession(session);
+                console.log("AR-session gestart!");
+            }).catch((error) => {
+                console.error("Fout bij starten van AR-session:", error);
+            });
+        } else {
+            console.error("WebXR wordt niet ondersteund in deze browser.");
+            alert("WebXR wordt niet ondersteund. Probeer een andere browser zoals Chrome.");
+        }
     }
 
     addObject(object) {
