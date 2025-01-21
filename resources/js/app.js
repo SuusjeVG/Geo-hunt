@@ -23,12 +23,20 @@ class Game {
                 if (markerObj.isNearby(location)) {
                     console.log(`Player is within radius of marker: ${markerObj.name}`);
                     this.player.vibrate(); // Laat de telefoon trillen
+                    this.enableCameraButton(); // Activeer de camera-knop
                 }
             });
         });
 
         // 2. Centreer de kaart op de spelerlocatie
         this.centerMapButton();
+    }
+
+    enableCameraButton() {
+        const cameraButton = document.querySelector('[data-action="camera"]');
+        cameraButton.addEventListener("click", () => {
+            this.player.openARCamera();
+        });
     }
 
     

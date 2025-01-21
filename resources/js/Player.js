@@ -1,8 +1,12 @@
+import ARRenderer from "./ARRenderer";
+import * as THREE from "three";
+
 export default class Player {
     constructor() {
         this.username = ' ';
         this.inventory = [];
-        this.location = {}; // Een object, geen array
+        this.location = {}; 
+        this.arRenderer = new ARRenderer();
     }
     
     startTracking(onLocationUpdate) {
@@ -40,7 +44,19 @@ export default class Player {
         }
     }
 
-    openCamera() {
-        // Example: open AR camera
+    openARCamera() {
+        // Initialiseer de ARRenderer
+        this.arRenderer.init();
+
+        // Voeg een 3D-object toe
+        const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const cube = new THREE.Mesh(geometry, material);
+        cube.position.set(0, 0, -1); // Plaats 1 meter voor de camera
+        this.arRenderer.addObject(cube);
+
+        // Start de AR-rendering
+        this.arRenderer.startRendering();
+        console.log("AR camera geopend via ARRenderer!");
     }
 }

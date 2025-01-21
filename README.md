@@ -21,7 +21,7 @@ Bekijk de live preview van **Geo Hunt** via de volgende link:
 [**Live Preview**](https://geo-hunt.onrender.com/)  
 
 **Let op:**  
-- Deze preview is geoptimaliseerd voor mobiele apparaten. Gebruik een telefoon of simuleer een mobiel scherm in de browser voor de beste ervaring. Locatie-tracking op een pc is minder accuraat.  
+- Deze preview is geoptimaliseerd voor mobiele apparaten. Gebruik een **Android telefoon** of simuleer een mobiel scherm in de browser voor de beste ervaring. Locatie-tracking op een pc is minder accuraat. Het IOS besturingsysteem heeft geen toegang tot de javascript geolocatie API en WebXR voor AR rendering.  
 - Je kunt inloggen met de volgende testgegevens:  
   - **Gebruikersnaam:** `testuser@example.com`  
   - **Wachtwoord:** `test1234`  
